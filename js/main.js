@@ -1,0 +1,130 @@
+// =====================================================================
+// IMPOSTAZIONI: cambia solo qui
+// ---------------------------------------------------------------------
+// EMAIL: dove arrivano i messaggi del form. È scritta a pezzi perché
+// i programmi che raccolgono indirizzi dalle pagine non la trovino.
+// SOCIAL: incolla i link delle pagine di STILL. Se un link è vuoto,
+// l'icona resta visibile ma spenta.
+// =====================================================================
+const EMAIL = ['NOME', 'gmail.com'];
+
+const SOCIAL = {
+  instagram: '',
+  tiktok: '',
+  linkedin: '',
+  facebook: ''
+};
+// =====================================================================
+
+document.documentElement.classList.add('js');
+
+// Indirizzo email ricomposto
+const emailAddress = EMAIL.join('@');
+
+// --- Social --------------------------------------------------------------
+document.querySelectorAll('[data-social]').forEach((a) => {
+  const url = SOCIAL[a.dataset.social];
+  if (url) a.href = url;
+  else { a.classList.add('off'); a.setAttribute('aria-disabled', 'true'); a.removeAttribute('target'); }
+});
+
+// --- Barra in alto: sfondo quando si scorre ------------------------------
+const nav = document.getElementById('nav');
+const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 10);
+onScroll();
+window.addEventListener('scroll', onScroll, { passive: true });
+
+// --- Comparsa delle sezioni ----------------------------------------------
+const toReveal = document.querySelectorAll('.reveal');
+if ('IntersectionObserver' in window) {
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  toReveal.forEach((el, i) => {
+    // piccolo ritardo a cascata dentro le griglie
+    el.style.transitionDelay = (el.closest('.grid, .why-list') ? (i % 3) * 90 : 0) + 'ms';
+    io.observe(el);
+  });
+} else {
+  toReveal.forEach((el) => el.classList.add('in'));
+}
+
+// --- Form di contatto ------------------------------------------------------
+const form = document.getElementById('form');
+const errorBox = document.getElementById('form-error');
+const okBox = document.getElementById('form-ok');
+const roleField = document.getElementById('campo-ruolo');
+const msgLabel = document.getElementById('msg-label');
+const fallback = document.getElementById('mail-fallback');
+fallback.href = 'mailto:' + emailAddress;
+fallback.textContent = emailAddress;
+
+const MOTIVI = {
+  coda: { subject: 'Voglio provare STILL', msg: 'Messaggio <em>(facoltativo)</em>', ph: 'Raccontaci che sport fai, cosa ti aspetti da STILL…', needMsg: false },
+  idea: { subject: 'Un\'idea per STILL', msg: 'La tua idea', ph: 'Cosa vorresti trovare in STILL?', needMsg: true },
+  collab: { subject: 'Proposta di collaborazione con STILL', msg: 'La tua proposta', ph: 'Chi sei e come vorresti collaborare?', needMsg: true },
+  altro: { subject: 'Messaggio per STILL', msg: 'Messaggio', ph: 'Scrivi qui…', needMsg: true }
+};
+
+function updateMotivo() {
+  const m = form.motivo.value;
+  roleField.hidden = m !== 'collab';
+  msgLabel.innerHTML = MOTIVI[m].msg;
+  form.messaggio.placeholder = MOTIVI[m].ph;
+}
+form.addEventListener('change', (e) => { if (e.target.name === 'motivo') updateMotivo(); });
+
+// I pulsanti "Mettiti in coda" selezionano già il motivo giusto
+document.querySelectorAll('[data-motivo]').forEach((a) => {
+  a.addEventListener('click', () => {
+    const r = form.querySelector(`input[name="motivo"][value="${a.dataset.motivo}"]`);
+    if (r) { r.checked = true; updateMotivo(); }
+  });
+});
+
+function showError(text, field) {
+  errorBox.textContent = text;
+  errorBox.hidden = false;
+  if (field) { field.setAttribute('aria-invalid', 'true'); field.focus(); }
+}
+
+form.addEventListener('input', (e) => {
+  e.target.removeAttribute('aria-invalid');
+  errorBox.hidden = true;
+});
+
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
+  okBox.hidden = true;
+  const m = form.motivo.value;
+  const nome = form.nome.value.trim();
+  const email = form.email.value.trim();
+  const ruolo = form.ruolo.value.trim();
+  const messaggio = form.messaggio.value.trim();
+
+  if (!nome) return showError('Scrivi il tuo nome.', form.nome);
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return showError('Controlla l\'email: serve per risponderti.', form.email);
+  if (MOTIVI[m].needMsg && !messaggio) return showError('Scrivi due righe, così sappiamo di cosa si tratta.', form.messaggio);
+  if (EMAIL[0] === 'NOME') return showError('Il form si attiva a breve: riprova tra poco o scrivici sui social.');
+
+  const righe = [
+    `Nome: ${nome}`,
+    `Email: ${email}`,
+    ruolo ? `Chi sono: ${ruolo}` : '',
+    '',
+    messaggio || 'Vorrei essere tra i primi a provare STILL.',
+    '',
+    '— Inviato da pietrodegiglio.github.io/stillapp'
+  ].filter((r, i) => r !== '' || i === 3 || i === 5);
+
+  const href = 'mailto:' + emailAddress
+    + '?subject=' + encodeURIComponent(MOTIVI[m].subject)
+    + '&body=' + encodeURIComponent(righe.join('\n'));
+
+  window.location.href = href;
+  okBox.hidden = false;
+});
+
+updateMotivo();
