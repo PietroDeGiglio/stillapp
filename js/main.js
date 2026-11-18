@@ -31,7 +31,7 @@ document.querySelectorAll('[data-social]').forEach((a) => {
 // --- Gradiente sincronizzato ----------------------------------------------
 // Ogni scritta arcobaleno usa il gradiente del blocco che la contiene (titolo,
 // frase, paragrafo): così "Ieri. Oggi. Domani. Ancora." sembra un'unica pennellata.
-const gradEls = document.querySelectorAll('.grad-text, .hl, .brand-logo');
+const gradEls = document.querySelectorAll('.grad-text, .hl, .brand-logo, .eyebrow-line');
 function syncGradients() {
   gradEls.forEach((el) => {
     const group = el.closest('.brand, h1, h2, h3, p, li') || el;
