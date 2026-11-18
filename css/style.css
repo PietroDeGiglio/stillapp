@@ -322,8 +322,8 @@ html { animation: gsShift 6s ease infinite; }
 .chip small { display: block; font-size: 11px; color: var(--ink-soft); font-weight: 600; }
 .chip-ico { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 12px; font-size: 18px; background: var(--bg-soft); }
 .chip-1 { top: 16%; left: -42%; animation-delay: 1.4s, 2.1s; }
-.chip-2 { top: 47%; right: -40%; animation-delay: 2.2s, 2.9s; }
-.chip-3 { bottom: 12%; left: -34%; animation-delay: 3s, 3.7s; }
+.chip-2 { top: 33%; right: -40%; animation-delay: 2.2s, 2.9s; }
+.chip-3 { top: 54%; left: -34%; animation-delay: 3s, 3.7s; }
 @keyframes chipIn { from { opacity: 0; transform: translateY(20px) scale(.8); } to { opacity: 1; transform: none; } }
 @keyframes floaty { 0%, 100% { translate: 0 0; } 50% { translate: 0 -10px; } }
 
@@ -434,7 +434,7 @@ html { animation: gsShift 6s ease infinite; }
   .chip { padding: 7px 10px 7px 7px; border-radius: 14px; gap: 7px; }
   .chip b { font-size: 11px; } .chip small { font-size: 10px; }
   .chip-ico { width: 26px; height: 26px; font-size: 14px; border-radius: 9px; }
-  .chip-1 { left: -9%; top: 3%; } .chip-2 { right: -9%; top: 36%; } .chip-3 { left: -7%; bottom: -3%; }
+  .chip-1 { left: -9%; top: 3%; } .chip-2 { right: -9%; top: 36%; } .chip-3 { left: -7%; top: auto; bottom: -3%; }
   .grid { grid-template-columns: repeat(2, 1fr); }
   .contact-card { grid-template-columns: 1fr; padding: 32px 22px; gap: 32px; }
 }
