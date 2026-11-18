@@ -6,13 +6,13 @@
 // SOCIAL: incolla i link delle pagine di STILL. Se un link è vuoto,
 // l'icona resta visibile ma spenta.
 // =====================================================================
-const EMAIL = ['NOME', 'gmail.com'];
+const EMAIL = ['still.webapp', 'gmail.com'];
 
 const SOCIAL = {
-  instagram: '',
-  tiktok: '',
-  linkedin: '',
-  facebook: ''
+  instagram: 'https://www.instagram.com/still.webapp/',
+  tiktok: 'https://www.tiktok.com/@still.webapp',
+  linkedin: 'https://www.linkedin.com/company/stillwebapp/',
+  facebook: 'https://www.facebook.com/profile.php?id=61596785875883'
 };
 // =====================================================================
 
@@ -107,7 +107,6 @@ form.addEventListener('submit', (e) => {
   if (!nome) return showError('Scrivi il tuo nome.', form.nome);
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return showError('Controlla l\'email: serve per risponderti.', form.email);
   if (MOTIVI[m].needMsg && !messaggio) return showError('Scrivi due righe, così sappiamo di cosa si tratta.', form.messaggio);
-  if (EMAIL[0] === 'NOME') return showError('Il form si attiva a breve: riprova tra poco o scrivici sui social.');
 
   const righe = [
     `Nome: ${nome}`,
