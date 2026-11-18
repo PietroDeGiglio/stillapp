@@ -104,6 +104,7 @@ html { animation: gsShift 6s ease infinite; }
   background-size: calc(var(--gw) * 3) calc(var(--gh) * 3) !important;
   background-position: calc(var(--gs) * -2 * var(--gw) - var(--gx)) calc(var(--gs) * -2 * var(--gh) - var(--gy)) !important;
   background-repeat: no-repeat !important;
+  -webkit-box-decoration-break: clone; box-decoration-break: clone;
 }
 .h1-days .gsync, .h1-again.gsync { animation: rise .7s ease forwards !important; }
 .h1-days .gsync:nth-child(2) { animation-delay: .15s !important; }
@@ -221,7 +222,7 @@ html { animation: gsShift 6s ease infinite; }
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 .phone {
-  position: relative; width: 290px; aspect-ratio: 9 / 19;
+  position: relative; width: 290px; aspect-ratio: 9 / 17.5;
   border-radius: 46px; padding: 11px;
   background: linear-gradient(145deg, #2a2a2a, #0c0c0c 40%, #1b1b1b);
   box-shadow: 0 40px 80px -30px rgba(0, 0, 0, .6), inset 0 0 0 1.5px rgba(255, 255, 255, .12);
@@ -280,6 +281,9 @@ html { animation: gsShift 6s ease infinite; }
 .sets i { height: 6px; border-radius: 6px; background: #EFEDE8; position: relative; overflow: hidden; }
 .sets i::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, #20C997, #10B981); transform: scaleX(0); transform-origin: left; transition: transform .45s ease; }
 .sets i.done::after { transform: none; }
+.card-quote { text-align: center; padding: 12px 12px 13px; }
+.card-quote small { text-transform: uppercase; letter-spacing: .12em; font-size: 9px; font-weight: 800; }
+.card-quote p { margin-top: 4px; font-size: 14px; font-weight: 800; line-height: 1.25; letter-spacing: .01em; }
 .card-pet { display: flex; align-items: center; gap: 10px; position: relative; background: linear-gradient(135deg, #fff, #f3eefe); overflow: hidden; }
 .card-pet > div { flex: 1; min-width: 0; }
 .pet-b { display: none; }
@@ -425,12 +429,12 @@ html { animation: gsShift 6s ease infinite; }
   .hero { grid-template-columns: 1fr; text-align: center; padding-top: 108px; gap: 56px; min-height: auto; }
   .lead { margin: 0 auto; }
   .cta-row { justify-content: center; }
-  .phone { width: 250px; }
+  .phone { width: 290px; }
   .stage { --ry: 0deg; --rx: 0deg; }
   .chip { padding: 7px 10px 7px 7px; border-radius: 14px; gap: 7px; }
   .chip b { font-size: 11px; } .chip small { font-size: 10px; }
   .chip-ico { width: 26px; height: 26px; font-size: 14px; border-radius: 9px; }
-  .chip-1 { left: -18%; top: 4%; } .chip-2 { right: -22%; } .chip-3 { left: -16%; }
+  .chip-1 { left: -9%; top: 3%; } .chip-2 { right: -9%; top: 36%; } .chip-3 { left: -7%; bottom: -3%; }
   .grid { grid-template-columns: repeat(2, 1fr); }
   .contact-card { grid-template-columns: 1fr; padding: 32px 22px; gap: 32px; }
 }

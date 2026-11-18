@@ -35,13 +35,13 @@ const gradEls = document.querySelectorAll('.grad-text, .hl, .brand-logo');
 function syncGradients() {
   gradEls.forEach((el) => {
     const group = el.closest('.brand, h1, h2, h3, p, li') || el;
-    const g = group.getBoundingClientRect();
-    const r = el.getBoundingClientRect();
-    // le scritte che stanno salendo (animazione d'ingresso) sono spostate di poco: si corregge al giro dopo
-    el.style.setProperty('--gw', g.width + 'px');
-    el.style.setProperty('--gh', g.height + 'px');
-    el.style.setProperty('--gx', (r.left - g.left) + 'px');
-    el.style.setProperty('--gy', (r.top - g.top) + 'px');
+    // misure "di layout" (offset*), non quelle a schermo: così le inclinazioni 3D e le
+    // animazioni d'ingresso non falsano il gradiente
+    const same = el !== group && el.offsetParent === group.offsetParent;
+    el.style.setProperty('--gw', group.offsetWidth + 'px');
+    el.style.setProperty('--gh', group.offsetHeight + 'px');
+    el.style.setProperty('--gx', (same ? el.offsetLeft - group.offsetLeft : 0) + 'px');
+    el.style.setProperty('--gy', (same ? el.offsetTop - group.offsetTop : 0) + 'px');
     el.classList.add('gsync');
   });
 }
