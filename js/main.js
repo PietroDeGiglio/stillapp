@@ -28,6 +28,29 @@ document.querySelectorAll('[data-social]').forEach((a) => {
   else { a.classList.add('off'); a.setAttribute('aria-disabled', 'true'); a.removeAttribute('target'); }
 });
 
+// --- Gradiente sincronizzato ----------------------------------------------
+// Ogni scritta arcobaleno usa il gradiente del blocco che la contiene (titolo,
+// frase, paragrafo): così "Ieri. Oggi. Domani. Ancora." sembra un'unica pennellata.
+const gradEls = document.querySelectorAll('.grad-text, .hl');
+function syncGradients() {
+  gradEls.forEach((el) => {
+    const group = el.closest('h1, h2, h3, p, li') || el;
+    const g = group.getBoundingClientRect();
+    const r = el.getBoundingClientRect();
+    // le scritte che stanno salendo (animazione d'ingresso) sono spostate di poco: si corregge al giro dopo
+    el.style.setProperty('--gw', g.width + 'px');
+    el.style.setProperty('--gh', g.height + 'px');
+    el.style.setProperty('--gx', (r.left - g.left) + 'px');
+    el.style.setProperty('--gy', (r.top - g.top) + 'px');
+    el.classList.add('gsync');
+  });
+}
+syncGradients();
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(syncGradients);
+window.addEventListener('load', () => setTimeout(syncGradients, 1400));
+let gradTimer;
+window.addEventListener('resize', () => { clearTimeout(gradTimer); gradTimer = setTimeout(syncGradients, 150); });
+
 // --- Barra in alto: sfondo quando si scorre ------------------------------
 const nav = document.getElementById('nav');
 const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 10);
