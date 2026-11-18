@@ -31,10 +31,10 @@ document.querySelectorAll('[data-social]').forEach((a) => {
 // --- Gradiente sincronizzato ----------------------------------------------
 // Ogni scritta arcobaleno usa il gradiente del blocco che la contiene (titolo,
 // frase, paragrafo): così "Ieri. Oggi. Domani. Ancora." sembra un'unica pennellata.
-const gradEls = document.querySelectorAll('.grad-text, .hl');
+const gradEls = document.querySelectorAll('.grad-text, .hl, .brand-logo');
 function syncGradients() {
   gradEls.forEach((el) => {
-    const group = el.closest('h1, h2, h3, p, li') || el;
+    const group = el.closest('.brand, h1, h2, h3, p, li') || el;
     const g = group.getBoundingClientRect();
     const r = el.getBoundingClientRect();
     // le scritte che stanno salendo (animazione d'ingresso) sono spostate di poco: si corregge al giro dopo
@@ -50,6 +50,72 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(syncGradie
 window.addEventListener('load', () => setTimeout(syncGradients, 1400));
 let gradTimer;
 window.addEventListener('resize', () => { clearTimeout(gradTimer); gradTimer = setTimeout(syncGradients, 150); });
+
+// --- Telefono animato -----------------------------------------------------
+// Una piccola "giornata" che si ripete: calorie che salgono, serie completate,
+// carico che aumenta, serie di giorni che cresce e l'uovo che inizia a schiudersi.
+const stage = document.getElementById('stage');
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if (stage) {
+  const screen = stage.querySelector('.screen');
+  const kcal = document.getElementById('kcal');
+  const streak = document.getElementById('streak');
+  const pill = document.getElementById('pill');
+  const pet = document.getElementById('pet');
+  const sets = stage.querySelectorAll('.sets i');
+  const fmt = (n) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  let timers = [];
+  const at = (ms, fn) => timers.push(setTimeout(fn, ms));
+
+  const countUp = (to, ms) => {
+    const t0 = performance.now();
+    const step = (t) => {
+      const k = Math.min(1, (t - t0) / ms);
+      kcal.textContent = fmt(Math.round(to * (1 - Math.pow(1 - k, 3))));
+      if (k < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  };
+
+  const reset = () => {
+    timers.forEach(clearTimeout); timers = [];
+    screen.classList.remove('play');
+    pill.classList.remove('show');
+    pet.classList.remove('hatch');
+    sets.forEach((s) => s.classList.remove('done'));
+    streak.textContent = '11';
+    kcal.textContent = '0';
+  };
+
+  const cycle = () => {
+    reset();
+    at(80, () => { screen.classList.add('play'); countUp(1420, 1600); });
+    sets.forEach((s, i) => at(1800 + i * 650, () => s.classList.add('done')));
+    at(4500, () => pill.classList.add('show'));
+    at(5200, () => { streak.textContent = '12'; streak.classList.remove('bump'); void streak.offsetWidth; streak.classList.add('bump'); });
+    at(6000, () => pet.classList.add('hatch'));
+    at(10500, cycle);
+  };
+
+  if (reduceMotion) {
+    screen.classList.add('play'); kcal.textContent = fmt(1420); streak.textContent = '12';
+    sets.forEach((s) => s.classList.add('done')); pill.classList.add('show');
+  } else {
+    setTimeout(cycle, 900);
+    // Inclinazione che segue il mouse (solo con un mouse vero)
+    if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+      const hero = document.querySelector('.hero');
+      hero.addEventListener('pointermove', (e) => {
+        const r = hero.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width - 0.5;
+        const y = (e.clientY - r.top) / r.height - 0.5;
+        stage.style.setProperty('--ry', (-10 + x * 18).toFixed(2) + 'deg');
+        stage.style.setProperty('--rx', (4 - y * 12).toFixed(2) + 'deg');
+      });
+      hero.addEventListener('pointerleave', () => { stage.style.removeProperty('--ry'); stage.style.removeProperty('--rx'); });
+    }
+  }
+}
 
 // --- Barra in alto: sfondo quando si scorre ------------------------------
 const nav = document.getElementById('nav');

@@ -74,7 +74,7 @@
   <header class="nav" id="nav">
     <a class="brand" href="#top" aria-label="STILL, torna all'inizio">
       <span class="brand-logo logo-mask grad-bg" aria-hidden="true"></span>
-      <span class="brand-name">STILL</span>
+      <span class="brand-name grad-text">STILL</span>
     </a>
     <nav aria-label="Sezioni">
       <ul class="nav-links">
@@ -108,39 +108,56 @@
       </div>
 
       <div class="hero-visual" aria-hidden="true">
-        <div class="phone">
-          <div class="phone-notch"></div>
-          <div class="screen">
-            <div class="scr-head">
-              <span class="scr-hello">Ciao 👋</span>
-              <span class="scr-streak">🔥 12</span>
-            </div>
-            <div class="card card-ring">
-              <svg viewBox="0 0 120 120" class="ring">
-                <circle cx="60" cy="60" r="50" class="ring-bg"/>
-                <circle cx="60" cy="60" r="50" class="ring-fg"/>
-              </svg>
-              <div class="ring-txt"><b>1.420</b><small>kcal di 2.100</small></div>
-              <div class="macros">
-                <span><i class="m m-p"></i>Proteine</span>
-                <span><i class="m m-c"></i>Carboidrati</span>
-                <span><i class="m m-g"></i>Grassi</span>
+        <div class="stage" id="stage">
+          <div class="halo"></div>
+          <div class="phone">
+            <div class="phone-notch"></div>
+            <div class="screen">
+              <div class="scr-head">
+                <div><small>Oggi</small><span class="scr-hello">Ciao 👋</span></div>
+                <span class="scr-streak"><span class="flame">🔥</span><b id="streak">11</b></span>
               </div>
-            </div>
-            <div class="card card-row">
-              <span class="emoji">🏋️</span>
-              <div><b>Allenamento di oggi</b><small>Petto e tricipiti · 6 esercizi</small></div>
-              <span class="pill">+2,5 kg</span>
-            </div>
-            <div class="card card-quote blur">
-              <small>Frase del giorno</small>
-              <b>“…”</b>
-            </div>
-            <div class="card card-pet">
-              <span class="egg"></span>
-              <div><b>Il tuo compagno</b><small>si sta per schiudere…</small></div>
+
+              <div class="card card-ring">
+                <svg viewBox="0 0 120 120" class="ring">
+                  <defs>
+                    <linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1">
+                      <stop offset="0" stop-color="#20C997"/><stop offset=".5" stop-color="#F5A623"/><stop offset="1" stop-color="#7A4DF1"/>
+                    </linearGradient>
+                  </defs>
+                  <circle cx="60" cy="60" r="50" class="ring-bg"/>
+                  <circle cx="60" cy="60" r="50" class="ring-fg" stroke="url(#ringGrad)"/>
+                </svg>
+                <div class="ring-txt"><b id="kcal">0</b><small>kcal di 2.100</small></div>
+                <div class="macros">
+                  <span><em>Proteine</em><i><u class="m-p"></u></i></span>
+                  <span><em>Carboidrati</em><i><u class="m-c"></u></i></span>
+                  <span><em>Grassi</em><i><u class="m-g"></u></i></span>
+                </div>
+              </div>
+
+              <div class="card card-work">
+                <div class="work-top">
+                  <span class="emoji">🏋️</span>
+                  <div><b>Panca piana</b><small>Serie 4 × 8</small></div>
+                  <span class="pill" id="pill">+2,5 kg</span>
+                </div>
+                <div class="sets"><i></i><i></i><i></i><i></i></div>
+              </div>
+
+              <div class="card card-pet" id="pet">
+                <span class="egg"><svg viewBox="0 0 34 42" class="crack"><path d="M4 20 L10 16 L14 22 L19 15 L24 21 L30 17"/></svg></span>
+                <div><b>Il tuo compagno</b><small class="pet-a">sta per schiudersi…</small><small class="pet-b">Chi sarà? 👀</small></div>
+                <span class="sparkle">✨</span>
+              </div>
+
+              <div class="tabbar"><i class="on"></i><i></i><i></i><i></i></div>
             </div>
           </div>
+
+          <div class="chip chip-1"><span class="chip-ico">🏆</span><span><b>Nuovo record!</b><small>Panca piana · 82,5 kg</small></span></div>
+          <div class="chip chip-2"><span class="chip-ico">🔥</span><span><b>12 giorni di fila</b><small>Non fermarti adesso</small></span></div>
+          <div class="chip chip-3"><span class="chip-ico">📲</span><span><b>La tua storia è pronta</b><small>Condividila</small></span></div>
         </div>
       </div>
     </section>
@@ -156,7 +173,7 @@
     <!-- FUNZIONI -->
     <section class="section" id="cosa-fa" aria-labelledby="t-cosa-fa">
       <div class="section-head reveal">
-        <p class="eyebrow">Cosa fa</p>
+        <p class="eyebrow"><span class="grad-text">Cosa fa</span></p>
         <h2 id="t-cosa-fa"><span class="grad-text">Tutto quello che ti serve.</span><br>Niente di quello che ti distrae.</h2>
       </div>
 
@@ -199,7 +216,7 @@
     <!-- PERCHÉ -->
     <section class="section why" id="perche" aria-labelledby="t-perche">
       <div class="section-head reveal">
-        <p class="eyebrow">Perché STILL</p>
+        <p class="eyebrow"><span class="grad-text">Perché STILL</span></p>
         <h2 id="t-perche">Fatta per chi <span class="grad-text">ricomincia</span>.<br>E per chi <span class="grad-text">non smette</span>.</h2>
       </div>
       <ul class="why-list">
@@ -222,7 +239,7 @@
     <section class="section contact" id="contatti" aria-labelledby="t-contatti">
       <div class="contact-card reveal">
         <div class="contact-intro">
-          <p class="eyebrow">Contatti</p>
+          <p class="eyebrow"><span class="grad-text">Contatti</span></p>
           <h2 id="t-contatti">Scrivici.</h2>
           <p>STILL è in beta privata e cresce con chi la usa. Vuoi provarla tra i primi, hai un'idea o vuoi collaborare? Ogni messaggio viene letto.</p>
           <ul class="contact-points">
@@ -275,7 +292,7 @@
     <div class="footer-top">
       <a class="brand" href="#top" aria-label="STILL, torna all'inizio">
         <span class="brand-logo logo-mask grad-bg" aria-hidden="true"></span>
-        <span class="brand-name">STILL</span>
+        <span class="brand-name grad-text">STILL</span>
       </a>
       <p class="footer-claim"><span class="grad-text">Ieri. Oggi. Domani. Ancora.</span></p>
       <ul class="social" id="social" aria-label="STILL sui social">
